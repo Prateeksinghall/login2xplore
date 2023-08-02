@@ -8,40 +8,6 @@ var connectionToken = '90931372|-31949321205086276|90950270';
 
 $('#rollNo').focus();
 
-
-
-
-function alertHandlerHTML(status, message) {
- 
-    if (status === 1) {
-        return `<div class="alert  alert-primary d-flex align-items-center alert-dismissible " role="alert">
-                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
-                <div>
-                  <strong>Success!</strong> ${message}
-                </div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>`;
-    } else {
-        return `<div class="alert  alert-warning d-flex align-items-center alert-dismissible" role="alert">
-        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-        <div>
-          <strong>Warning!</strong> ${message}
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>`;
-    }
-
-}
-
-
-function alertHandler(status, message) {
-    var alterHTML = alertHandlerHTML(status, message);
-    let alertDiv = document.createElement('div');
-    alertDiv.innerHTML = alterHTML;
-    $('#disposalAlertContainer').append(alertDiv);
-}
-
-
 function saveRecNoToLocalStorage(jsonObject) {
     var lvData = JSON.parse(jsonObject.data);
     localStorage.setItem('recordNo', lvData.rec_no);
@@ -121,45 +87,45 @@ function validateFormData() {
     enrollmentData = $('#enrollmentDate').val();
 
     if (rollNo === '') {
-        alertHandler(0, 'Roll NO Missing');
+        alert('Roll NO Missing');
         $('#rollNo').focus();
         return "";
     }
 
     if (rollNo <= 0) {
-        alertHandler(0, 'Invalid Roll-No');
+        alert('Invalid Roll-No');
         $('#rollNo').focus();
         return "";
     }
 
     if (className === '') {
-        alertHandler(0, 'Class Name is Missing');
+        alert('Class Name is Missing');
         $('#class').focus();
         return "";
     }
     if (className <= 0 && className > 12) {
-        alertHandler(0, 'Invalid Class Name');
+        alert('Invalid Class Name');
         $('#class').focus();
         return "";
     }
     if (birthDate === '') {
-        alertHandler(0, 'Birth Date Is Missing');
+        alert('Birth Date Is Missing');
         $('#birthDate').focus();
         return "";
     }
     if (address === '') {
-        alertHandler(0, 'Address Is Missing');
+        alert('Address Is Missing');
         $('#address').focus();
         return "";
     }
     if (enrollmentData === '') {
-        alertHandler(0, 'Enrollment Data Is Missing');
+        alert('Enrollment Data Is Missing');
         $('#enrollmentDate').focus();
         return "";
     }
 
     if (!validateEnrollmentDate()) {
-        alertHandler(0, 'Invalid Enrollment Date(i.e Enrollment Date should be greater than Birth Date)');
+        alert('Invalid Enrollment Date(i.e Enrollment Date should be greater than Birth Date)');
         $('#enrollmentData').focus();
         return "";
     }
@@ -220,7 +186,7 @@ function getStudentData() {
             $('#updateBtn').prop('disabled', true);
             fillData("");
             $('#name').focus();
-        } else if (resJsonObj.status === 200) { 
+        } else if (resJsonObj.status === 200) {
             $('#rollNO').prop('disabled', true);
             fillData(resJsonObj);
             $('#resetBtn').prop('disabled', false);
@@ -250,11 +216,7 @@ function saveData() {
     var resJsonObj = executeCommandAtGivenBaseUrl(putRequest, jpdbBaseURL, jpbdIML);
     jQuery.ajaxSetup({async: true});
     
-    if (resJsonObj.status === 400) {// If data is not saved
-        alertHandler(0, 'Data Is Not Saved ( Message: ' + resJsonObj.message + " )");
-    } else if (resJsonObj.status === 200) {// If data is successfully saved
-        alertHandler(1, 'Data Saved successfully');
-    }
+
     //After saving to databse resent from data 
     resetForm();
     
@@ -276,11 +238,7 @@ function changeData() {
     var resJsonObj = executeCommandAtGivenBaseUrl(updateRequest, jpdbBaseURL, jpbdIML);
     jQuery.ajaxSetup({async: true});
     
-    if (resJsonObj.status === 400) {// If data is not saved
-        alertHandler(0, 'Data Is Not Update ( Message: ' + resJsonObj.message + " )");
-    } else if (resJsonObj.status === 200) {// If data is successfully saved
-        alertHandler(1, 'Data Update successfully');
-    }
+
     
     //After updating to databse resent from data
     resetForm();

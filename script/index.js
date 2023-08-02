@@ -200,24 +200,19 @@ function getStudentData() {
 
 }
 
-//Function to make PUT request to save data into database
 function saveData() {
     var jsonStrObj = validateFormData();
     
-    // If form data is not valid
     if (jsonStrObj === '')
         return '';
 
-    // create PUT Request object
     var putRequest = createPUTRequest(connectionToken, jsonStrObj, studentDatabaseName, studentRelationName);
     jQuery.ajaxSetup({async: false});
     
-    //Make PUT Request for saving data into database
     var resJsonObj = executeCommandAtGivenBaseUrl(putRequest, jpdbBaseURL, jpbdIML);
     jQuery.ajaxSetup({async: true});
     
 
-    //After saving to databse resent from data 
     resetForm();
     
     $('#empid').focus();
@@ -225,22 +220,18 @@ function saveData() {
 
 
 
-//Function used to make UPDATE Request
 function changeData() {
     $('#changeBtn').prop('disabled', true);
-    var jsonChg = validateFormData(); // Before making UPDATE Request validate form data
+    var jsonChg = validateFormData(); 
     
-    // Create UPDATE Request object
     var updateRequest = createUPDATERecordRequest(connectionToken, jsonChg, studentDatabaseName, studentRelationName, localStorage.getItem("recordNo"));
     jQuery.ajaxSetup({async: false});
     
-    //Make UPDATE Request
     var resJsonObj = executeCommandAtGivenBaseUrl(updateRequest, jpdbBaseURL, jpbdIML);
     jQuery.ajaxSetup({async: true});
     
 
     
-    //After updating to databse resent from data
     resetForm();
     $('#empid').focus();
 }
